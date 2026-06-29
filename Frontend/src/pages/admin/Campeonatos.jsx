@@ -632,6 +632,7 @@ const Campeonatos = () => {
                     required
                     value={formCampeonato.fecha_inicio}
                     onChange={(e) => setFormCampeonato(prev => ({ ...prev, fecha_inicio: e.target.value }))}
+                    onFocus={(e) => e.target.showPicker?.()}
                   />
                 </div>
                 <div>
@@ -642,6 +643,7 @@ const Campeonatos = () => {
                     required
                     value={formCampeonato.fecha_fin}
                     onChange={(e) => setFormCampeonato(prev => ({ ...prev, fecha_fin: e.target.value }))}
+                    onFocus={(e) => e.target.showPicker?.()}
                   />
                 </div>
               </div>
@@ -822,6 +824,7 @@ const Campeonatos = () => {
                     required
                     value={formPartido.fecha_hora_partido}
                     onChange={(e) => setFormPartido(prev => ({ ...prev, fecha_hora_partido: e.target.value }))}
+                    onFocus={(e) => e.target.showPicker?.()}
                   />
                 </div>
               </div>

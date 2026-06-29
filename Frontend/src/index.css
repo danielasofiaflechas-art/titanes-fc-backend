@@ -2,17 +2,17 @@
 
 :root {
   --titanes-red: #e50914;
-  --titanes-red-soft: rgba(229, 9, 20, 0.18);
+  --titanes-red-soft: rgba(229, 9, 20, 0.16);
   --titanes-red-strong: rgba(229, 9, 20, 0.95);
-  --titanes-white: #f9fafb;
-  --surface: rgba(15, 15, 18, 0.92);
-  --surface-strong: rgba(12, 12, 14, 0.95);
-  --surface-soft: rgba(25, 25, 28, 0.82);
+  --titanes-white: #f5f7fa;
+  --surface: rgba(10, 10, 14, 0.9);
+  --surface-strong: rgba(8, 8, 10, 0.96);
+  --surface-soft: rgba(20, 20, 24, 0.84);
   --border: rgba(255, 255, 255, 0.08);
-  --shadow-dark: 0 24px 80px rgba(0, 0, 0, 0.45);
-  --shadow-red: 0 0 30px rgba(229, 9, 20, 0.25);
-  --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --shadow-dark: 0 20px 55px rgba(0, 0, 0, 0.34);
+  --shadow-red: 0 0 24px rgba(229, 9, 20, 0.22);
+  --font-display: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
 
 @layer base {
@@ -25,11 +25,11 @@
     min-height: 100vh;
     font-family: var(--font-body);
     color: var(--titanes-white);
-    background-color: #050505;
+    background-color: #040405;
     background-image:
-      radial-gradient(circle at 15% 10%, rgba(229, 9, 20, 0.06) 0%, transparent 22%),
-      radial-gradient(circle at 85% 15%, rgba(229, 9, 20, 0.04) 0%, transparent 26%),
-      linear-gradient(180deg, #070707 0%, #0b0b0e 100%);
+      radial-gradient(circle at 10% 0%, rgba(229, 9, 20, 0.08) 0%, transparent 22%),
+      radial-gradient(circle at 90% 15%, rgba(255, 255, 255, 0.03) 0%, transparent 20%),
+      linear-gradient(180deg, #060608 0%, #0a0a0d 100%);
     background-attachment: fixed;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -67,49 +67,50 @@
 
 @layer components {
   .glass-card {
-    background: rgba(10, 10, 13, 0.78);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: var(--shadow-dark);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, rgba(12, 12, 16, 0.95), rgba(8, 8, 10, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   .glass-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(229, 9, 20, 0.22);
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.42), var(--shadow-red);
+    transform: translateY(-1px);
+    border-color: rgba(229, 9, 20, 0.18);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.32);
   }
 
   .sports-input {
-    @apply w-full rounded-2xl bg-zinc-950/75 border border-zinc-800 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none transition-all duration-200;
-    backdrop-filter: blur(8px);
+    @apply w-full rounded-2xl bg-zinc-950/80 border border-zinc-800 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none transition-all duration-200;
+    backdrop-filter: blur(6px);
   }
 
   .sports-input:focus {
-    border-color: rgba(229, 9, 20, 0.7);
-    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.18);
+    border-color: rgba(229, 9, 20, 0.78);
+    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.17);
+    background-color: rgba(10, 10, 12, 0.95);
   }
 
   .btn-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 1rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.24em;
+    border-radius: 999px;
+    padding: 0.78rem 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: white;
-    background-image: linear-gradient(135deg, #E50914 0%, #bf0f17 100%);
-    box-shadow: 0 0 30px rgba(229, 9, 20, 0.25);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-image: linear-gradient(135deg, #E50914 0%, #b60d15 100%);
+    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.24);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 0 35px rgba(229, 9, 20, 0.35);
+    box-shadow: 0 14px 34px rgba(229, 9, 20, 0.3);
   }
 
   .btn-secondary {
@@ -125,11 +126,11 @@
   }
 
   .premium-table th {
-    @apply px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400;
+    @apply px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500;
   }
 
   .premium-table td {
-    @apply px-5 py-4 bg-zinc-950/80 border border-zinc-900 text-zinc-200;
+    @apply px-5 py-4 bg-zinc-950/75 border border-zinc-900/80 text-zinc-200;
   }
 
   .premium-table tr {
@@ -137,7 +138,7 @@
   }
 
   .premium-table tr:hover td {
-    @apply bg-zinc-900/80;
+    @apply bg-zinc-900/90;
   }
 
   .premium-tag {

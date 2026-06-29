@@ -81,89 +81,85 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-fadeIn">
       
-      {/* HEADER SECTION */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-white tracking-tight">
-          Panel Administrativo
-        </h1>
-        <p className="text-zinc-500 text-sm mt-1">
-          Visualización en tiempo real del club deportivo y finanzas.
-        </p>
+      <div className="flex flex-col gap-4 rounded-[1.75rem] border border-zinc-900/80 bg-gradient-to-br from-zinc-950/90 via-zinc-950/80 to-black p-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-zinc-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Resumen operativo
+          </div>
+          <h1 className="mt-3 text-3xl font-extrabold text-white tracking-tight">
+            Panel Administrativo
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">
+            Visualización en tiempo real del club deportivo y finanzas.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 px-4 py-3 text-sm text-zinc-300">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">Estado</p>
+          <p className="mt-1 font-semibold text-white">Operación estable • Sin incidencias</p>
+        </div>
       </div>
 
-      {/* KPI CARDS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        
-        {/* Jugadores */}
-        <div className="glass-card p-6 rounded-xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-titanes-red/5 rounded-bl-full pointer-events-none transition-all group-hover:bg-titanes-red/10"></div>
-          <div className="flex items-center gap-4">
-            <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 text-titanes-red shadow-inner text-xl">
+        <div className="glass-card p-5 rounded-[1.35rem] relative overflow-hidden group">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-zinc-500">Jugadores</p>
+              <h3 className="mt-2 text-2xl font-black text-white">{stats?.total_jugadores || 0}</h3>
+            </div>
+            <div className="p-3 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-titanes-red text-xl">
               <FaUsers />
             </div>
-            <div>
-              <p className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Jugadores</p>
-              <h3 className="text-2xl font-black text-white mt-1">{stats?.total_jugadores || 0}</h3>
-            </div>
           </div>
         </div>
 
-        {/* Entrenadores */}
-        <div className="glass-card p-6 rounded-xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-titanes-red/5 rounded-bl-full pointer-events-none transition-all group-hover:bg-titanes-red/10"></div>
-          <div className="flex items-center gap-4">
-            <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 text-titanes-red shadow-inner text-xl">
+        <div className="glass-card p-5 rounded-[1.35rem] relative overflow-hidden group">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-zinc-500">Entrenadores</p>
+              <h3 className="mt-2 text-2xl font-black text-white">{stats?.total_entrenadores || 0}</h3>
+            </div>
+            <div className="p-3 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-titanes-red text-xl">
               <FaUserTie />
             </div>
-            <div>
-              <p className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Entrenadores</p>
-              <h3 className="text-2xl font-black text-white mt-1">{stats?.total_entrenadores || 0}</h3>
-            </div>
           </div>
         </div>
 
-        {/* Campeonatos Activos */}
-        <div className="glass-card p-6 rounded-xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-titanes-red/5 rounded-bl-full pointer-events-none transition-all group-hover:bg-titanes-red/10"></div>
-          <div className="flex items-center gap-4">
-            <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 text-titanes-red shadow-inner text-xl">
+        <div className="glass-card p-5 rounded-[1.35rem] relative overflow-hidden group">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-zinc-500">Campeonatos</p>
+              <h3 className="mt-2 text-2xl font-black text-white">{stats?.campeonatos_activos || 0}</h3>
+            </div>
+            <div className="p-3 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-titanes-red text-xl">
               <FaTrophy />
             </div>
-            <div>
-              <p className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Campeonatos</p>
-              <h3 className="text-2xl font-black text-white mt-1">{stats?.campeonatos_activos || 0}</h3>
-            </div>
           </div>
         </div>
 
-        {/* Ingresos Caja */}
-        <div className="glass-card p-6 rounded-xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full pointer-events-none transition-all group-hover:bg-emerald-500/10"></div>
-          <div className="flex items-center gap-4">
-            <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-500 shadow-inner text-xl">
+        <div className="glass-card p-5 rounded-[1.35rem] relative overflow-hidden group">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-zinc-500">Ingresos Caja</p>
+              <h3 className="mt-2 text-lg font-black text-white truncate">{formatCurrency(stats?.ingresos_caja)}</h3>
+            </div>
+            <div className="p-3 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-emerald-500 text-xl">
               <FaMoneyBillWave />
             </div>
-            <div>
-              <p className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Ingresos Caja</p>
-              <h3 className="text-xl font-black text-white mt-1 truncate">{formatCurrency(stats?.ingresos_caja)}</h3>
-            </div>
           </div>
         </div>
 
-        {/* Deuda Estimada */}
-        <div className="glass-card p-6 rounded-xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-bl-full pointer-events-none transition-all group-hover:bg-amber-500/10"></div>
-          <div className="flex items-center gap-4">
-            <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 text-amber-500 shadow-inner text-xl">
+        <div className="glass-card p-5 rounded-[1.35rem] relative overflow-hidden group">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-zinc-500">Deuda Morosa</p>
+              <h3 className="mt-2 text-lg font-black text-white truncate">{formatCurrency(stats?.deuda_total_estimada)}</h3>
+            </div>
+            <div className="p-3 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-amber-500 text-xl">
               <FaExclamationTriangle />
             </div>
-            <div>
-              <p className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Deuda Morosa</p>
-              <h3 className="text-xl font-black text-white mt-1 truncate">{formatCurrency(stats?.deuda_total_estimada)}</h3>
-            </div>
           </div>
         </div>
-
       </div>
 
       {/* GRAPHICS SECTION */}

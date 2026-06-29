@@ -32,14 +32,18 @@ const Finanzas = () => {
   // Formulario Generar Lote
   const [formLote, setFormLote] = useState({
     mes: new Date().getMonth() + 1,
-    anio: new Date().getFullYear(),
-    monto_base: '150000'
+    ano: new Date().getFullYear(),
+    monto_pactado: '150000',
+    fecha_limite:''
+
+
   });
 
   // Formulario Registrar Pago Mensualidad
   const [formPago, setFormPago] = useState({
-    metodo_pago: 'transferencia',
-    referencia: ''
+    monto_abonar: '',
+    metodo_pago: 'Transferencia Bancaria',
+    comprobante_url: ''
   });
 
   // Formulario Registrar Pago Inscripcion Campeonato
@@ -47,7 +51,7 @@ const Finanzas = () => {
     campeonato_id: '',
     equipo_id: '',
     monto: '',
-    metodo_pago: 'transferencia'
+    metodo_pago: 'Transferencia Bancaria'
   });
 
   // Torneos y equipos cargados para el selector de inscripciones
@@ -100,9 +104,12 @@ const Finanzas = () => {
     try {
       const payload = {
         mes: parseInt(formLote.mes),
-        anio: parseInt(formLote.anio),
-        monto_base: parseFloat(formLote.monto_base)
+        ano: parseInt(formLote.ano),
+        monto_pactado: parseFloat(formLote.monto_pactado),
+        fecha_limite: formLote.fecha_limite
       };
+      console.log("Payload enviado:");
+      console.log(JSON.stringify(payload, null, 2));
 
       const res = await API.post('/finanzas/mensualidades/lote', payload);
       if (res.data && res.data.success) {
@@ -117,6 +124,7 @@ const Finanzas = () => {
         setModalType(null);
         loadFinanzas();
       }
+      
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -133,7 +141,11 @@ const Finanzas = () => {
 
   const handleOpenPagoModal = (mens) => {
     setSelectedMensualidad(mens);
-    setFormPago({ metodo_pago: 'transferencia', referencia: '' });
+    setFormPago({ 
+      monto_abonar: mens.monto_pactado || mens.monto,
+      metodo_pago: 'Transferencia Bancaria',
+
+    });
     setModalType('pago-mensualidad');
   };
 
@@ -141,6 +153,9 @@ const Finanzas = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
+      console.log("=== DATOS ENVIADOS ===");
+      console.log(JSON.stringify(formPago, null, 2));
+
       const res = await API.post(`/finanzas/mensualidades/${selectedMensualidad.id}/pago`, formPago);
       if (res.data && res.data.success) {
         Swal.fire({
@@ -174,11 +189,13 @@ const Finanzas = () => {
     try {
       const payload = {
         campeonato_id: parseInt(formPagoInscripcion.campeonato_id),
-        equipo_id: parseInt(formPagoInscripcion.equipo_id),
-        monto: parseFloat(formPagoInscripcion.monto),
+        equipo_titanes_id: parseInt(formPagoInscripcion.equipo_id),
+        monto_total: parseFloat(formPagoInscripcion.monto),
         metodo_pago: formPagoInscripcion.metodo_pago
       };
-      
+      console.log("=== INSCRIPCIÓN ===");
+      console.log(JSON.stringify(payload, null, 2));
+
       const res = await API.post('/finanzas/inscripciones', payload);
       if (res.data && res.data.success) {
         Swal.fire({
@@ -281,7 +298,7 @@ const Finanzas = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => {
-                    setFormLote({ mes: new Date().getMonth() + 1, anio: new Date().getFullYear(), monto_base: '150000' });
+                    setFormLote({ mes: new Date().getMonth() + 1, ano: new Date().getFullYear(), monto_base: '150000' });
                     setModalType('lote');
                   }}
                   className="btn-primary py-2 px-4 text-xs"
@@ -314,7 +331,7 @@ const Finanzas = () => {
                             </span>
                           </td>
                           <td className="text-xs font-semibold text-zinc-300">
-                            {getMonthName(mens.mes)} / {mens.anio}
+                            {getMonthName(mens.mes)} / {mens.ano}
                           </td>
                           <td className="text-zinc-300 font-medium text-sm">{formatCurrency(mens.monto_pactado || mens.monto)}</td>
                           <td className="text-emerald-400 font-bold text-sm">{formatCurrency(mens.monto_pagado || 0)}</td>
@@ -358,6 +375,7 @@ const Finanzas = () => {
                   <p className="text-zinc-500">No hay mensualidades facturadas en el sistema.</p>
                 </div>
               )}
+            
             </div>
           )}
 
@@ -393,7 +411,7 @@ const Finanzas = () => {
                         <tr key={index}>
                           <td className="font-bold text-white text-xs">{insc.campeonato_nombre || `Campeonato ID: ${insc.campeonato_id}`}</td>
                           <td className="text-zinc-300 font-medium text-xs">{insc.nombre_equipo_completo || `Equipo ID: ${insc.equipo_id}`}</td>
-                          <td className="text-emerald-400 font-bold text-sm">{formatCurrency(insc.monto)}</td>
+                          <td className="text-emerald-400 font-bold text-sm">{formatCurrency(insc.monto_total)}</td>
                           <td className="text-xs text-zinc-400">
                             {new Date(insc.fecha_pago).toLocaleDateString()}
                           </td>
@@ -502,8 +520,8 @@ const Finanzas = () => {
                     type="number"
                     className="sports-input py-2 text-sm"
                     required
-                    value={formLote.anio}
-                    onChange={(e) => setFormLote(prev => ({ ...prev, anio: e.target.value }))}
+                    value={formLote.ano}
+                    onChange={(e) => setFormLote(prev => ({ ...prev, ano: e.target.value }))}
                   />
                 </div>
               </div>
@@ -513,10 +531,30 @@ const Finanzas = () => {
                   type="number"
                   className="sports-input py-2 text-sm"
                   required
-                  value={formLote.monto_base}
-                  onChange={(e) => setFormLote(prev => ({ ...prev, monto_base: e.target.value }))}
+                  value={formLote.monto_pactado}
+                  onChange={(e) => setFormLote(prev => ({ ...prev, monto_pactado: e.target.value }))}
                 />
               </div>
+
+              <div>
+  <label className="block text-[10px] font-bold text-zinc-400 uppercase mb-1.5">
+    Fecha Límite *
+  </label>
+
+  <input
+    type="date"
+    className="sports-input py-2 text-sm"
+    required
+    value={formLote.fecha_limite}
+    onFocus={(e) => e.target.showPicker?.()}
+    onChange={(e) =>
+      setFormLote(prev => ({
+        ...prev,
+        fecha_limite: e.target.value
+      }))
+    }
+  />
+</div>
               <p className="text-zinc-500 text-[11px] leading-relaxed italic">
                 * Nota: Esta operación creará cobros pendientes por el monto especificado para TODOS los jugadores del club con estado 'activo'.
               </p>
@@ -546,6 +584,16 @@ const Finanzas = () => {
 
             <form onSubmit={handlePagarMensualidad} className="space-y-4">
               <div>
+                <label className="block text-[10px] font-bold text-zinc-400 uppercase mb-1.5">Monto a Abonar (COP) *</label>
+                <input
+                  type="number"
+                  className="sports-input py-2 text-sm"
+                  required
+                  value={formPago.monto_abonar}
+                  onChange={(e) => setFormPago(prev => ({ ...prev, monto_abonar: e.target.value }))}
+                />
+              </div>
+              <div>
                 <label className="block text-[10px] font-bold text-zinc-400 uppercase mb-1.5">Método de Pago *</label>
                 <select
                   className="sports-input py-2 text-sm bg-zinc-900 border-zinc-800"
@@ -553,9 +601,9 @@ const Finanzas = () => {
                   value={formPago.metodo_pago}
                   onChange={(e) => setFormPago(prev => ({ ...prev, metodo_pago: e.target.value }))}
                 >
-                  <option value="transferencia">Transferencia Bancaria</option>
-                  <option value="efectivo">Efectivo</option>
-                  <option value="tarjeta">Tarjeta Crédito/Débito</option>
+                  <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Tarjeta de Crédito/Débito">Tarjeta de Crédito/Débito</option>
                 </select>
               </div>
               <div>
@@ -564,8 +612,8 @@ const Finanzas = () => {
                   type="text"
                   className="sports-input py-2 text-sm"
                   placeholder="Ej. Nequi TRX-87293"
-                  value={formPago.referencia}
-                  onChange={(e) => setFormPago(prev => ({ ...prev, referencia: e.target.value }))}
+                  value={formPago.comprobante_url}
+                  onChange={(e) => setFormPago(prev => ({ ...prev, comprobante_url: e.target.value }))}
                 />
               </div>
               <div className="flex justify-end gap-2 pt-4">
@@ -585,8 +633,10 @@ const Finanzas = () => {
               <h3 className="text-base font-black text-white uppercase tracking-wider">Pagar Matrícula Torneo</h3>
               <button onClick={() => setModalType(null)} className="text-zinc-500 hover:text-white"><FaTimes /></button>
             </div>
-            <form onSubmit={handleRegistrarPagoInscripcion} className="space-y-4">
-              <div>
+              
+              <form onSubmit={handleRegistrarPagoInscripcion} className="space-y-4">
+
+            <div>
                 <label className="block text-[10px] font-bold text-zinc-400 uppercase mb-1.5">Campeonato *</label>
                 <select
                   className="sports-input py-2 text-sm bg-zinc-900 border-zinc-800"
@@ -599,8 +649,10 @@ const Finanzas = () => {
                     <option key={camp.id} value={camp.id}>{camp.nombre} ({formatCurrency(camp.valor_inscripcion)})</option>
                   ))}
                 </select>
-              </div>
-              <div>
+            </div>  
+
+        
+              
                 <label className="block text-[10px] font-bold text-zinc-400 uppercase mb-1.5">Equipo del Club *</label>
                 <select
                   className="sports-input py-2 text-sm bg-zinc-900 border-zinc-800"
@@ -613,7 +665,7 @@ const Finanzas = () => {
                     <option key={eq.id} value={eq.id}>{eq.nombre_equipo_completo}</option>
                   ))}
                 </select>
-              </div>
+              
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-zinc-400 uppercase mb-1.5">Monto de Pago *</label>
@@ -633,8 +685,8 @@ const Finanzas = () => {
                     value={formPagoInscripcion.metodo_pago}
                     onChange={(e) => setFormPagoInscripcion(prev => ({ ...prev, metodo_pago: e.target.value }))}
                   >
-                    <option value="transferencia">Transferencia Bancaria</option>
-                    <option value="efectivo">Efectivo</option>
+                    <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                    <option value="Efectivo">Efectivo</option>
                   </select>
                 </div>
               </div>
@@ -643,12 +695,14 @@ const Finanzas = () => {
                 <button type="submit" disabled={submitting} className="btn-primary py-2 px-4 text-xs">Registrar</button>
               </div>
             </form>
-          </div>
+        
         </div>
-      )}
 
     </div>
+  )}
+  </div>
   );
 };
+  
 
 export default Finanzas;

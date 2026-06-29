@@ -54,29 +54,29 @@ const DashboardLayout = () => {
   const menuItems = getMenuItems();
 
   return (
-    <div className="min-h-screen flex text-zinc-100 bg-zinc-950 sports-grid">
+    <div className="min-h-screen flex text-zinc-100 bg-[#040405] sports-grid">
       <div
-        className={`fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity duration-300 ${
           sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setSidebarOpen(false)}
       />
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-zinc-950 border-r border-zinc-900 transition-transform duration-300 lg:translate-x-0 lg:static ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-zinc-900/80 bg-[#060608] transition-transform duration-300 lg:translate-x-0 lg:static ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-900/70">
+        <div className="flex items-center justify-between px-5 py-5 border-b border-zinc-900/80">
           <Link to="/" className="flex items-center gap-3 group" onClick={() => setSidebarOpen(false)}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-3xl bg-gradient-to-br from-titanes-red to-red-700 shadow-red-glow-sm transition-all duration-200 group-hover:shadow-red-glow-md">
-              <FaShieldAlt className="text-xl text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-titanes-red to-red-700 shadow-red-glow-sm transition-all duration-200 group-hover:shadow-red-glow-md">
+              <FaShieldAlt className="text-lg text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-black tracking-[0.3em] text-white uppercase leading-none">
+              <h1 className="text-[0.95rem] font-black tracking-[0.28em] text-white uppercase leading-none">
                 TITANES
               </h1>
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-titanes-red">
+              <span className="text-[9px] font-bold uppercase tracking-[0.42em] text-titanes-red">
                 F.C.
               </span>
             </div>
@@ -85,27 +85,27 @@ const DashboardLayout = () => {
             onClick={() => setSidebarOpen(false)}
             className="text-zinc-400 hover:text-white lg:hidden focus:outline-none"
           >
-            <FaTimes size={20} />
+            <FaTimes size={19} />
           </button>
         </div>
 
-        <div className="px-6 py-6 border-b border-zinc-900/70 bg-zinc-950/40">
+        <div className="px-5 py-5 border-b border-zinc-900/80 bg-zinc-950/35">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-base font-bold text-white shadow-inner">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900/80 text-sm font-bold text-white">
               {user?.nombre?.charAt(0)}{user?.apellido?.charAt(0)}
             </div>
             <div className="truncate">
-              <h2 className="text-sm font-bold text-white truncate leading-tight">
+              <h2 className="text-sm font-semibold text-white truncate leading-tight">
                 {user?.nombre} {user?.apellido}
               </h2>
-              <span className="inline-block rounded-full border border-titanes-red/20 bg-titanes-red/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.35em] text-titanes-red">
+              <span className="inline-block rounded-full border border-titanes-red/20 bg-titanes-red/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.3em] text-titanes-red">
                 {user?.rol}
               </span>
             </div>
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2">
+        <nav className="flex-1 overflow-y-auto px-3 py-5 space-y-1.5">
           {menuItems.map((item, index) => {
             const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
             return (
@@ -113,13 +113,13 @@ const DashboardLayout = () => {
                 key={index}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3.5 rounded-3xl border px-4 py-3.5 text-sm font-semibold tracking-wide transition-all duration-200 ${
+                className={`flex items-center gap-3 rounded-2xl border px-3.5 py-3 text-sm font-semibold tracking-wide transition-all duration-200 ${
                   isActive
-                    ? 'border-titanes-red/35 bg-gradient-to-r from-titanes-red/20 to-transparent text-white shadow-red-glow-sm'
-                    : 'border-transparent bg-transparent text-zinc-400 hover:border-zinc-700 hover:bg-zinc-900/70 hover:text-white'
+                    ? 'border-titanes-red/30 bg-gradient-to-r from-titanes-red/20 to-transparent text-white shadow-red-glow-sm'
+                    : 'border-transparent bg-transparent text-zinc-400 hover:border-zinc-800 hover:bg-zinc-900/70 hover:text-white'
                 }`}
               >
-                <span className={`text-base transition-colors ${isActive ? 'text-titanes-red text-shadow-red' : 'text-zinc-400'}`}>
+                <span className={`text-base transition-colors ${isActive ? 'text-titanes-red' : 'text-zinc-400'}`}>
                   {item.icon}
                 </span>
                 {item.name}
@@ -128,10 +128,10 @@ const DashboardLayout = () => {
           })}
         </nav>
 
-        <div className="p-4 border-t border-zinc-900/70">
+        <div className="p-4 border-t border-zinc-900/80">
           <button
             onClick={logout}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-900/80 bg-zinc-900/60 px-4 py-3 text-sm font-bold text-zinc-200 transition-all duration-200 hover:border-titanes-red/40 hover:bg-red-950/25 hover:text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-900/80 bg-zinc-900/60 px-4 py-3 text-sm font-bold text-zinc-200 transition-all duration-200 hover:border-titanes-red/35 hover:bg-red-950/25 hover:text-white"
           >
             <FaSignOutAlt className="text-base" />
             Cerrar Sesión
@@ -140,7 +140,7 @@ const DashboardLayout = () => {
       </aside>
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-        <header className="sticky top-0 z-10 border-b border-zinc-900/70 bg-black/45 backdrop-blur-xl px-6 py-4 shadow-sm shadow-zinc-950/50 lg:px-8">
+        <header className="sticky top-0 z-10 border-b border-zinc-900/80 bg-black/50 backdrop-blur-xl px-6 py-4 lg:px-8">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
               <button
@@ -149,25 +149,25 @@ const DashboardLayout = () => {
               >
                 <FaBars size={20} />
               </button>
-              <div className="hidden md:flex items-center gap-2 rounded-2xl border border-zinc-900/80 bg-zinc-950/80 px-4 py-2 text-xs uppercase tracking-[0.32em] text-zinc-400">
+              <div className="hidden md:flex items-center gap-2 rounded-full border border-zinc-900/80 bg-zinc-950/70 px-3.5 py-2 text-[11px] uppercase tracking-[0.28em] text-zinc-400">
                 <span>Club Deportivo</span>
                 <span className="text-zinc-700">•</span>
                 <span className="text-titanes-red">Titanes F.C.</span>
               </div>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="hidden sm:flex items-center gap-2 rounded-2xl border border-zinc-900/80 bg-zinc-950/80 px-4 py-2 text-xs uppercase tracking-[0.32em] text-zinc-300">
-                <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <div className="hidden sm:flex items-center gap-2 rounded-full border border-zinc-900/80 bg-zinc-950/70 px-3.5 py-2 text-[11px] uppercase tracking-[0.28em] text-zinc-300">
+                <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
                 <span>Online</span>
                 <span className="text-zinc-600">API</span>
               </div>
-              <div className="flex items-center gap-3 rounded-2xl border border-zinc-900/80 bg-zinc-950/80 px-4 py-2">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-red-700 to-titanes-red text-white shadow-red-glow">
+              <div className="flex items-center gap-3 rounded-2xl border border-zinc-900/80 bg-zinc-950/70 px-3.5 py-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-red-700 to-titanes-red text-sm font-bold text-white">
                   {user?.nombre?.charAt(0)}{user?.apellido?.charAt(0)}
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-semibold text-white leading-tight">{user?.nombre}</p>
-                  <p className="text-[10px] uppercase tracking-[0.36em] text-titanes-red/80">{user?.rol}</p>
+                  <p className="text-[10px] uppercase tracking-[0.32em] text-titanes-red/80">{user?.rol}</p>
                 </div>
               </div>
             </div>

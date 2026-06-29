@@ -587,11 +587,13 @@ const Jugadores = () => {
                     <input
                       type="date"
                       name="fecha_nacimiento"
-                      className="sports-input py-2 text-sm"
-                      required
                       value={form.fecha_nacimiento}
                       onChange={handleInputChange}
+                      onFocus={(e) => e.target.showPicker?.()}
+                      className="sports-input py-2 text-sm"
+                      required
                     />
+
                   </div>
                   <div>
                     <label className="block text-[11px] font-bold text-zinc-400 uppercase mb-1.5">Posición Táctica *</label>

@@ -29,8 +29,10 @@ class FinanzasService {
             for (const jugador of jugadores) {
                 // Verificar si ya existe mensualidad para este mes/año
                 const [existe] = await connection.execute(
-                    `SELECT id FROM finanzas_mensualidades 
-                     WHERE jugador_id = ? AND mes = ? AND anio = ?`,
+                    `SELECT id FROM finanzas_mensualidades
+                    WHERE jugador_id = ?
+                    AND mes_correspondiente = ? 
+                    AND ano_correspondiente = ?`,
                     [jugador.usuario_id, data.mes, data.ano]
                 );
 
@@ -38,7 +40,7 @@ class FinanzasService {
                     // Crear mensualidad
                     const [result] = await connection.execute(
                         `INSERT INTO finanzas_mensualidades 
-                         (jugador_id, mes, anio, monto_pactado, monto_pagado, estado_pago, fecha_limite_pago) 
+                         (jugador_id, mes_correspondiente, ano_correspondiente, monto_pactado, monto_pagado, estado_pago, fecha_limite_pago) 
                          VALUES (?, ?, ?, ?, ?, ?, ?)`,
                         [jugador.usuario_id, data.mes, data.ano, data.monto_pactado, 0, 'Pendiente', data.fecha_limite]
                     );
@@ -133,9 +135,9 @@ class FinanzasService {
             // Registrar inscripción
             const [result] = await connection.execute(
                 `INSERT INTO finanzas_inscripciones_campeonatos 
-                 (campeonato_id, equipo_titanes_id, monto_inscripcion, fecha_limite_pago, estado_pago) 
-                 VALUES (?, ?, ?, ?, ?)`,
-                [data.campeonato_id, data.equipo_titanes_id, data.monto_inscripcion || campeonato[0].valor_inscripcion, data.fecha_limite_pago, 'Pendiente']
+                 (campeonato_id, equipo_titanes_id, monto_total, monto_abonado, estado_pago, fecha_pago_registro) 
+                 VALUES (?, ?, ?, ?, ?, NOW())`,
+                [data.campeonato_id, data.equipo_titanes_id, data.monto_total, data.monto_total,'Pagado']
             );
 
             // Registrar transacción en caja
@@ -143,7 +145,7 @@ class FinanzasService {
                 `INSERT INTO historial_transacciones_caja 
                  (tipo_transaccion, monto_transaccion, observaciones) 
                  VALUES (?, ?, ?)`,
-                ['Cuota Inscripción Campeonato Pendiente', data.monto_inscripcion || campeonato[0].valor_inscripcion, `Equipo ${data.equipo_titanes_id} - Campeonato ${data.campeonato_id}`]
+                ['Pago Inscripción Campeonato', data.monto_total, `Equipo ${data.equipo_titanes_id} - Campeonato ${data.campeonato_id}`]
             );
 
             await connection.commit();
